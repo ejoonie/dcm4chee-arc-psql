@@ -7,8 +7,8 @@ services:
       - "636:636"
     env_file: docker-compose.env
     volumes:
-      - /var/local/dcm4chee-arc/ldap:/var/lib/openldap/openldap-data
-      - /var/local/dcm4chee-arc/slapd.d:/etc/openldap/slapd.d
+      - ./dcm4chee-arc/ldap:/var/lib/openldap/openldap-data
+      - ./dcm4chee-arc/slapd.d:/etc/openldap/slapd.d
   keycloak:
     image: dcm4che/keycloak:7.0.1
     ports:
@@ -26,18 +26,18 @@ services:
     depends_on:
       - ldap
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - /var/local/dcm4chee-arc/keycloak:/opt/keycloak/standalone
+#      - /etc/localtime:/etc/localtime:ro
+#      - /etc/timezone:/etc/timezone:ro
+      - ./dcm4chee-arc/keycloak:/opt/keycloak/standalone
   db:
     image: dcm4che/postgres-dcm4chee:12.0-19
     ports:
       - "5432:5432"
     env_file: docker-compose.env
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - /var/local/dcm4chee-arc/db:/var/lib/postgresql/data
+#      - /etc/localtime:/etc/localtime:ro
+#      - /etc/timezone:/etc/timezone:ro
+      - ./dcm4chee-arc/db:/var/lib/postgresql/data
   arc:
     image: dcm4che/dcm4chee-arc-psql:5.19.1-secure-ui
     ports:
@@ -60,7 +60,7 @@ services:
       - keycloak
       - db
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - /var/local/dcm4chee-arc/wildfly:/opt/wildfly/standalone
-      - /var/local/dcm4chee-arc/storage:/storage
+#      - /etc/localtime:/etc/localtime:ro
+#      - /etc/timezone:/etc/timezone:ro
+      - ./dcm4chee-arc/wildfly:/opt/wildfly/standalone
+      - ./dcm4chee-arc/storage:/storage

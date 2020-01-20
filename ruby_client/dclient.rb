@@ -1,0 +1,5 @@
+require 'dicom'
+include DICOM
+
+
+
