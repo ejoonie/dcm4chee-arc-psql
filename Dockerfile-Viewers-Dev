@@ -1,0 +1,15 @@
+# docker run -it --rm --volume=$(pwd)/Viewers:/usr/src/app -p 4000:3000 --name viewer viewer
+# docker run -it --rm --volume=$(pwd)/Viewers:/usr/src/app -p 4000:3000 -e APP_CONFIG=config/local_dcm4chee --name viewer viewer
+# docker run -it --rm --volume=$(pwd)/Viewers:/usr/src/app -p 4000:3000 --name viewer viewer /bin/bash # overriding CMD
+FROM node:10.16.3-slim as builder
+
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+
+EXPOSE 3000
+
+# Run the install before copying the rest of the files
+CMD yarn config set workspaces-experimental true
+CMD yarn install \
+    && yarn run dev
+
