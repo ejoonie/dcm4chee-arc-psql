@@ -1,3 +1,4 @@
+# docker build . -f Dockerfile-Viewers-Dev -t viewer
 # docker run -it --rm --volume=$(pwd)/Viewers:/usr/src/app -p 4000:3000 --name viewer viewer
 # docker run -it --rm --volume=$(pwd)/Viewers:/usr/src/app -p 4000:3000 -e APP_CONFIG=config/local_dcm4chee --name viewer viewer
 # docker run -it --rm --volume=$(pwd)/Viewers:/usr/src/app -p 4000:3000 --name viewer viewer /bin/bash # overriding CMD
