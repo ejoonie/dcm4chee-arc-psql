@@ -6,8 +6,9 @@ HOST = '192.168.0.32'
 # HOST = '1.237.206.121'
 # HOST = '192.168.0.6'
 # HOST = '15.165.171.194'
-PORT = '8080'
-# PORT = '8081'
+HOST = 'yousunko.synology.me'
+# PORT = '8080'
+PORT = '8081'
 
 file_names = [
     './fixture/ejoonie-dicom/00000001.dcm',
@@ -42,7 +43,7 @@ files = file_names.map {|f| File.new(f, 'rb')}
 # 저장
 node  = DClient.new(HOST, 11112, {host_ae: 'DCM4CHEE'})
 begin
-  node.send(file_names)
+  # node.send(file_names)
 rescue Exception => e
   p(file_names)
 end
@@ -64,7 +65,7 @@ end
 
 # 조회
 # https://github.com/dcm4che/dcm4chee-arc-light/wiki/RESTful-Services#wado_rs
-res = RestClient.get("http://#{HOST}:#{PORT}/dcm4chee-arc/aets/DCM4CHEE/rs/studies")
-res = RestClient.get("http://#{HOST}:#{PORT}/dcm4chee-arc/aets/DCM4CHEE/rs/studies/count")
+# res = RestClient.get("http://#{HOST}:#{PORT}/dcm4chee-arc/aets/DCM4CHEE/rs/studies")
+# res = RestClient.get("http://#{HOST}:#{PORT}/dcm4chee-arc/aets/DCM4CHEE/rs/studies/count")
 res = RestClient.get("http://#{HOST}:#{PORT}/dcm4chee-arc/aets/DCM4CHEE/rs/instances/count")
 p res.body
