@@ -1,3 +1,4 @@
+# docker-compose -f ./docker-compose-mac.yml up
 version: "3"
 services:
   ldap:
@@ -7,8 +8,8 @@ services:
       - "636:636"
     env_file: docker-compose.env
     volumes:
-      - ./dcm4chee-arc/ldap:/var/lib/openldap/openldap-data
-      - ./dcm4chee-arc/slapd.d:/etc/openldap/slapd.d
+      - ./docker-data/ldap:/var/lib/openldap/openldap-data
+      - ./docker-data/slapd.d:/etc/openldap/slapd.d
   keycloak:
     image: dcm4che/keycloak:7.0.1
     ports:
@@ -28,7 +29,7 @@ services:
     volumes:
 #      - /etc/localtime:/etc/localtime:ro
 #      - /etc/timezone:/etc/timezone:ro
-      - ./dcm4chee-arc/keycloak:/opt/keycloak/standalone
+      - ./docker-data/keycloak:/opt/keycloak/standalone
   db:
     image: dcm4che/postgres-dcm4chee:12.0-19
     ports:
@@ -37,7 +38,7 @@ services:
     volumes:
 #      - /etc/localtime:/etc/localtime:ro
 #      - /etc/timezone:/etc/timezone:ro
-      - ./dcm4chee-arc/db:/var/lib/postgresql/data
+      - ./docker-data/db:/var/lib/postgresql/data
   arc:
     image: dcm4che/dcm4chee-arc-psql:5.19.1-secure-ui
     ports:
@@ -62,5 +63,5 @@ services:
     volumes:
 #      - /etc/localtime:/etc/localtime:ro
 #      - /etc/timezone:/etc/timezone:ro
-      - ./dcm4chee-arc/wildfly:/opt/wildfly/standalone
-      - ./dcm4chee-arc/storage:/storage
+      - ./docker-data/wildfly:/opt/wildfly/standalone
+      - ./docker-data/storage:/storage
