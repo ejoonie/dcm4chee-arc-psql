@@ -5,7 +5,8 @@ include DICOM
 
 module SendFolder
 
-  HOST = 'localhost'
+  # HOST = 'localhost'
+  HOST = '192.168.0.32'
 # HOST = '192.168.0.6'
 # HOST = 'yousunko.synology.me'
   PORT = '8080'
@@ -19,8 +20,6 @@ module SendFolder
   def send_folder(folder_path)
     # 로그파일
     log = Logger.new('log/send_folder.log')
-    file_count_before_sending = current_count
-    log.debug("file count before #{folder_path}: #{file_count_before_sending}")
 
     # DICOM node
     node  = DClient.new(HOST, 11112, {host_ae: 'DCM4CHEE'})
@@ -48,8 +47,15 @@ module SendFolder
     log.debug "total: #{total_file_count}"
     files_to_send = dicom_files - success.keys
 
+    if files_to_send.length <= 0
+      log.debug("Nothing to do with #{folder_path}")
+    end
+
+    file_count_before_sending = current_count
+    log.debug("file count before #{folder_path}: #{file_count_before_sending}")
+
     while processed_file_count < files_to_send.length
-      block = dicom_files[processed_file_count...processed_file_count + 16]
+      block = dicom_files[processed_file_count...processed_file_count + 64]
 
       begin
         node.send(block)
@@ -64,19 +70,17 @@ module SendFolder
     end
 
 
-
     # final report
-    log.debug "processed: #{processed_file_count}, success: #{success_file_count}, failure: #{failure_file_count} / #{total_file_count}"
-    File.write(success_file, success.to_json)
-    File.write(failure_file, failure.to_json)
-
     file_count_after_sending = current_count
+    log.debug("processed: #{processed_file_count}, success: #{success_file_count}, failure: #{failure_file_count} / #{total_file_count}")
     log.debug("file count after #{folder_path}: #{file_count_after_sending}")
 
     if file_count_before_sending + processed_file_count > file_count_after_sending
       log.error("#{folder_path}, #{file_count_before_sending} + #{processed_file_count} != #{file_count_before_sending}")
+      File.write(failure_file, failure.to_json)
     else
       log.debug("success: #{folder_path}")
+      File.write(success_file, success.to_json)
     end
   end
 end
