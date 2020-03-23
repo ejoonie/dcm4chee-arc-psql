@@ -16,9 +16,6 @@ docker-compose -f docker-compose-dev.yml up
 build
 ```bash
 docker build . -f Dockerfile-Viewers-Dev -t viewer
-```
-run
-```bash
 docker run -it --rm --volume=$(pwd)/Viewers:/usr/src/app -p 4000:3000 -e APP_CONFIG=config/local_dcm4chee --name viewer viewer
 ```
 ## Uploader
@@ -31,6 +28,10 @@ Be careful. dclient.rb will run immediately.
  
 # Deployment
 ## dmc4chee
+port: 8080, 11112    
+AETitle: DCM4CHEE   
+Data Dir: /var/local/dcm4chee-arc/  
+
 ubuntu
 ```bash
 docker-compose up -d 
