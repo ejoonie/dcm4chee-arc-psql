@@ -7,4 +7,6 @@ p "success.json count: #{success.size}"
 
 p "server file count: #{current_count}"
 
+p "patients count: #{patients_count}"
+
 

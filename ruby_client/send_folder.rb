@@ -17,6 +17,11 @@ module SendFolder
     JSON.parse(res)['count']
   end
 
+  def patients_count
+    res = RestClient.get("http://#{HOST}:#{PORT}/dcm4chee-arc/aets/DCM4CHEE/rs/patients/count")
+    JSON.parse(res)['count']
+  end
+
   def send_folder(folder_path)
     # 로그파일
     log = Logger.new('log/send_folder.log')
